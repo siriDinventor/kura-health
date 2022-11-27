@@ -8,7 +8,7 @@ import 'specialist.dart';
 import 'caretaker.dart';
 import 'alarm_page.dart';
 void main(){
-  runApp(const  AlarmPage());
+  runApp(const MyApp());
 }
 class KuraApp extends StatefulWidget {
   const KuraApp({Key? key}) : super(key: key);
@@ -38,7 +38,6 @@ class _KuraAppState extends State<KuraApp> {
   void _openDrawer() {
     _scaffoldKey.currentState!.openDrawer();
   }
-
   void _closeDrawer() {
     Navigator.of(context).pop();
   }
@@ -181,7 +180,11 @@ class _KuraAppState extends State<KuraApp> {
                             children: [
                               wide(place: IconButton(
                           icon: const Icon(Icons.medical_services, color: Colors.white,), onPressed: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Specialist()));
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const Specialist(),
+                                  ),
+                                );
                     },
                     ),
                                   text: const Text("Specialist")),

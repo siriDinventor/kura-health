@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'classes.dart';
-import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
+// import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 class AlarmPage extends StatefulWidget {
   const AlarmPage({Key? key}) : super(key: key);
   @override
   State<AlarmPage> createState() => _AlarmPageState();
 }
 class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
-  Widget buildBottomSheet(context) => MaterialApp();
-  late String time;
-  late String newDetail;
-  late String taskTitle;
+  TextEditingController hourController = TextEditingController();
+  TextEditingController minuteController = TextEditingController();
+  TextEditingController taskController = TextEditingController();
+  TextEditingController detailController = TextEditingController();
+  Widget buildBottomSheet(context) => const MaterialApp();
+  List<Book> reminder = [];
   TimeOfDay today = const TimeOfDay(hour: 38, minute: 3);
   // DateTime now = DateTime(2020).now();
 
@@ -27,7 +29,12 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
   // }
   @override
   Widget build(BuildContext context) {
-
+    void car(){
+      print('object');
+    }
+    void input(){
+      reminder.add(Book(time: TimeOfDay(hour: 4, minute: 4), detail: taskController.text, additionalDetail: detailController.text));
+    }
     return MaterialApp(
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
@@ -44,7 +51,7 @@ class _AlarmPageState extends State<AlarmPage> with TickerProviderStateMixin {
           backgroundColor: const Color.fromRGBO(64, 188, 140, 1),
           actions: [IconButton(onPressed: (){}, icon: const Icon(Icons.notifications))],
         ),
-        floatingActionButton: const ModalBottomSheetDemo(),
+        floatingActionButton: ModalBottomSheetDemo(),
         body: Header(
           child: Container(
             height: 150,
@@ -115,73 +122,70 @@ class _ModalBottomSheetDemoState extends State<ModalBottomSheetDemo> {
   Widget build(BuildContext context) {
     void  _showModalBottomSheet(){
       showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+        ),
         context: context,
         builder: (context) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Container(
-              color: const Color(0xff757575),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20)),
-                ),
-                height: 500,
-                alignment: Alignment.center,
-                child: Wrap(
-                  children: [
-                    Column(
-                        children: [
-                          // Container(
-                          //   color: Colors.grey,
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.center,
-                          //     children: [
-                          //       Expanded(
-                          //         child: TextField(
-                          //           controller: hourController,
-                          //           keyboardType: TextInputType.number,
-                          //         ),
-                          //       ),
-                          //       const Text(':'),
-                          //       Expanded(child: TextField(
-                          //         controller: minuteController,
-                          //         keyboardType: TextInputType.number,
-                          //       ),
-                          //       )
-                          //
-                          //     ],
-                          //   ),
-                          // ),
-                          TextField(
-                            controller: taskController,
-                          ),
-                          TextField(
-                            controller: detailController,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(28.0),
-                            child: ElevatedButton(
-                              child: const Text("Close Bottom Sheet"),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color.fromRGBO(64, 188, 140, 1),
-                                foregroundColor: Colors.white,
-                              ),
-                              onPressed: () {
-                                  setState(() {
-                                    reminder.add(Book(time: TimeOfDay(hour: 4, minute: 4), detail: taskController.text, additionalDetail: detailController.text));
-                                    print(reminder);
-                                  });
-                              },
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+              ),
+              height: 500,
+              alignment: Alignment.center,
+              child: Wrap(
+                children: [
+                  Column(
+                      children: [
+                        // Container(
+                        //   color: Colors.grey,
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: [
+                        //       Expanded(
+                        //         child: TextField(
+                        //           controller: hourController,
+                        //           keyboardType: TextInputType.number,
+                        //         ),
+                        //       ),
+                        //       const Text(':'),
+                        //       Expanded(child: TextField(
+                        //         controller: minuteController,
+                        //         keyboardType: TextInputType.number,
+                        //       ),
+                        //       )
+                        //
+                        //     ],
+                        //   ),
+                        // ),
+                        TextField(
+                          controller: taskController,
+                        ),
+                        TextField(
+                          controller: detailController,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(28.0),
+                          child: ElevatedButton(
+                            child: const Text("Close Bottom Sheet"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromRGBO(64, 188, 140, 1),
+                              foregroundColor: Colors.white,
                             ),
+                            onPressed: () {
+
+                            },
                           ),
-                        ]
-                    ),
-                  ],
-                ),
+                        ),
+                      ]
+                  ),
+                ],
               ),
             ),
           );
@@ -206,14 +210,14 @@ class Book{
     required this.time, required this.detail, required this.additionalDetail,
   });
 }
-var reminder = [
-  Book(
-    time: const TimeOfDay(hour: 9, minute: 50), detail: 'Oxycodone', additionalDetail: '',
-  ),
-  Book(
-    time: const TimeOfDay(hour: 9, minute: 50), detail: 'Oxycodone', additionalDetail: '30mg.After Eating'
-  ),
-  Book(
-    time: const TimeOfDay(hour: 9, minute: 50), detail: 'Oxycodone', additionalDetail: ''
-  ),
-];
+// var reminder = [
+//   Book(
+//     time: const TimeOfDay(hour: 9, minute: 50), detail: 'Oxycodone', additionalDetail: '',
+//   ),
+//   Book(
+//     time: const TimeOfDay(hour: 9, minute: 50), detail: 'Oxycodone', additionalDetail: '30mg.After Eating'
+//   ),
+//   Book(
+//     time: const TimeOfDay(hour: 9, minute: 50), detail: 'Oxycodone', additionalDetail: ''
+//   ),
+// ];
